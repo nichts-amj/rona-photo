@@ -1,0 +1,31 @@
+{
+  "hat": {
+    "repo": "XPixelGroup/HAT",
+    "commit": "1638a9a822581657811867bf670717f8371fc3e5",
+    "files": {
+      "third_party\\hat\\hat_arch.py": "https://raw.githubusercontent.com/XPixelGroup/HAT/1638a9a822581657811867bf670717f8371fc3e5/hat/archs/hat_arch.py",
+      "third_party\\hat\\hat_model.py": "https://raw.githubusercontent.com/XPixelGroup/HAT/1638a9a822581657811867bf670717f8371fc3e5/hat/models/hat_model.py",
+      "third_party\\hat\\LICENSE": "https://raw.githubusercontent.com/XPixelGroup/HAT/1638a9a822581657811867bf670717f8371fc3e5/LICENSE",
+      "third_party\\hat\\README.md": "https://raw.githubusercontent.com/XPixelGroup/HAT/1638a9a822581657811867bf670717f8371fc3e5/experiments/pretrained_models/README.md"
+    }
+  },
+  "codeformer": {
+    "repo": "sczhou/CodeFormer",
+    "commit": "b33cc7d639d6545bfcccc7e0bc6ae51f24e79c2b",
+    "files": {
+      "third_party\\codeformer\\codeformer_arch.py": "https://raw.githubusercontent.com/sczhou/CodeFormer/b33cc7d639d6545bfcccc7e0bc6ae51f24e79c2b/basicsr/archs/codeformer_arch.py",
+      "third_party\\codeformer\\vqgan_arch.py": "https://raw.githubusercontent.com/sczhou/CodeFormer/b33cc7d639d6545bfcccc7e0bc6ae51f24e79c2b/basicsr/archs/vqgan_arch.py",
+      "third_party\\codeformer\\inference_codeformer.py": "https://raw.githubusercontent.com/sczhou/CodeFormer/b33cc7d639d6545bfcccc7e0bc6ae51f24e79c2b/inference_codeformer.py",
+      "third_party\\codeformer\\LICENSE": "https://raw.githubusercontent.com/sczhou/CodeFormer/b33cc7d639d6545bfcccc7e0bc6ae51f24e79c2b/LICENSE"
+    }
+  },
+  "gfpgan": {
+    "repo": "TencentARC/GFPGAN",
+    "commit": "7552a7791caad982045a7bbe5634bbf1cd5c8679",
+    "files": {
+      "third_party\\gfpgan\\gfpganv1_clean_arch.py": "https://raw.githubusercontent.com/TencentARC/GFPGAN/7552a7791caad982045a7bbe5634bbf1cd5c8679/gfpgan/archs/gfpganv1_clean_arch.py",
+      "third_party\\gfpgan\\stylegan2_clean_arch.py": "https://raw.githubusercontent.com/TencentARC/GFPGAN/7552a7791caad982045a7bbe5634bbf1cd5c8679/gfpgan/archs/stylegan2_clean_arch.py",
+      "third_party\\gfpgan\\LICENSE": "https://raw.githubusercontent.com/TencentARC/GFPGAN/7552a7791caad982045a7bbe5634bbf1cd5c8679/LICENSE"
+    }
+  }
+}

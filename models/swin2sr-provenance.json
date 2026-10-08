@@ -1,0 +1,28 @@
+{
+  "repository": "https://github.com/mv-lab/swin2sr",
+  "commit": "6f25d7689813f7dd12c5a212b638066fa71bc9e6",
+  "files": {
+    "third_party/swin2sr/network_swin2sr.py": {
+      "url": "https://raw.githubusercontent.com/mv-lab/swin2sr/6f25d7689813f7dd12c5a212b638066fa71bc9e6/models/network_swin2sr.py",
+      "sha256": "7c9cc4de2233870768003963556106bba59c69b42e6d324e5bcb44b3fa6fb6b1",
+      "bytes": 45216
+    },
+    "third_party/swin2sr/inference_reference.py": {
+      "url": "https://raw.githubusercontent.com/mv-lab/swin2sr/6f25d7689813f7dd12c5a212b638066fa71bc9e6/main_test_swin2sr.py",
+      "sha256": "89dcb2bdd54efce2f9feaf73f55d86f3f930108ec03b71118db23b73c8d3193b",
+      "bytes": 14976
+    },
+    "third_party/swin2sr/LICENSE": {
+      "url": "https://raw.githubusercontent.com/mv-lab/swin2sr/6f25d7689813f7dd12c5a212b638066fa71bc9e6/LICENSE",
+      "sha256": "d66ccc11682c7458b19b376e1335e8665cbe412ff71f554bfec25f1791cddfa0",
+      "bytes": 11348
+    },
+    "models/Swin2SR_CompressedSR_X4_48.pth": {
+      "url": "https://github.com/mv-lab/swin2sr/releases/download/v0.0.1/Swin2SR_CompressedSR_X4_48.pth",
+      "sha256": "ed3f5dac3c1b9d07c9803f586cde6cdd75c96d975b6e50625afb623f22cf2a79",
+      "bytes": 61121509
+    }
+  },
+  "architecture": "unmodified official network_swin2sr.py",
+  "hash_note": "Local SHA256 after official HTTPS download; not independently published author checksums."
+}

@@ -1,0 +1,6 @@
+# Install matched CUDA wheels first; see setup-sr.ps1.
+torch==2.10.0+cu126
+torchvision==0.25.0+cu126
+timm==1.0.24
+numpy==2.3.5
+Pillow==12.3.0

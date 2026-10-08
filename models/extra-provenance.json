@@ -1,0 +1,79 @@
+{
+  "weights": {
+    "codeformer.pth": {
+      "url": "https://github.com/sczhou/CodeFormer/releases/download/v0.1.0/codeformer.pth",
+      "sha256": "1009e537e0c2a07d4cabce6355f53cb66767cd4b4297ec7a4a64ca4b8a5684b7",
+      "bytes": 376637898
+    },
+    "GFPGANv1.4.pth": {
+      "url": "https://github.com/TencentARC/GFPGAN/releases/download/v1.3.0/GFPGANv1.4.pth",
+      "sha256": "e2cd4703ab14f4d01fd1383a8a8b266f9a5833dacee8e6a79d3bf21a1b6be5ad",
+      "bytes": 348632874
+    },
+    "detection_Resnet50_Final.pth": {
+      "url": "https://github.com/sczhou/CodeFormer/releases/download/v0.1.0/detection_Resnet50_Final.pth",
+      "sha256": "6d1de9c2944f2ccddca5f5e010ea5ae64a39845a86311af6fdf30841b0a5a16d",
+      "bytes": 109497761
+    },
+    "parsing_parsenet.pth": {
+      "url": "https://github.com/sczhou/CodeFormer/releases/download/v0.1.0/parsing_parsenet.pth",
+      "sha256": "3d558d8d0e42c20224f13cf5a29c79eba2d59913419f945545d8cf7b72920de2",
+      "bytes": 85331193
+    },
+    "Real_HAT_GAN_SRx4.pth": {
+      "url": "https://drive.usercontent.google.com/download?id=1Ma12vCWT27P9M99-s2RXnynKN-OQsBrv&export=download&confirm=t",
+      "sha256": "f5b1e3bbbb05147ca2beefcc715279cb647d7976cbda67d62ea7e6e20d5ffcc7",
+      "bytes": 170277017
+    }
+  },
+  "sources": {
+    "hat": {
+      "repo": "XPixelGroup/HAT",
+      "commit": "1638a9a822581657811867bf670717f8371fc3e5",
+      "files": {
+        "third_party\\hat\\hat_arch.py": "https://raw.githubusercontent.com/XPixelGroup/HAT/1638a9a822581657811867bf670717f8371fc3e5/hat/archs/hat_arch.py",
+        "third_party\\hat\\hat_model.py": "https://raw.githubusercontent.com/XPixelGroup/HAT/1638a9a822581657811867bf670717f8371fc3e5/hat/models/hat_model.py",
+        "third_party\\hat\\LICENSE": "https://raw.githubusercontent.com/XPixelGroup/HAT/1638a9a822581657811867bf670717f8371fc3e5/LICENSE",
+        "third_party\\hat\\README.md": "https://raw.githubusercontent.com/XPixelGroup/HAT/1638a9a822581657811867bf670717f8371fc3e5/experiments/pretrained_models/README.md"
+      },
+      "hashes": {
+        "third_party\\hat\\hat_arch.py": "81d8cecf491975246c9ebb20480898c656f59de020f38b05daa68741e426117f",
+        "third_party\\hat\\hat_model.py": "6e66abf3c3a6a697bfef038c7c3043b46c8c382d559f0196c67177cadbdeaae1",
+        "third_party\\hat\\LICENSE": "a91d57ebad8955a1757be7891ca2da8e07493e662f0e34e1e1926571e05f37fc",
+        "third_party\\hat\\README.md": "f7b1d33435456d6723307802d3ed77675f1251625ce80c2a019e6f70515e4f26"
+      }
+    },
+    "codeformer": {
+      "repo": "sczhou/CodeFormer",
+      "commit": "b33cc7d639d6545bfcccc7e0bc6ae51f24e79c2b",
+      "files": {
+        "third_party\\codeformer\\codeformer_arch.py": "https://raw.githubusercontent.com/sczhou/CodeFormer/b33cc7d639d6545bfcccc7e0bc6ae51f24e79c2b/basicsr/archs/codeformer_arch.py",
+        "third_party\\codeformer\\vqgan_arch.py": "https://raw.githubusercontent.com/sczhou/CodeFormer/b33cc7d639d6545bfcccc7e0bc6ae51f24e79c2b/basicsr/archs/vqgan_arch.py",
+        "third_party\\codeformer\\inference_codeformer.py": "https://raw.githubusercontent.com/sczhou/CodeFormer/b33cc7d639d6545bfcccc7e0bc6ae51f24e79c2b/inference_codeformer.py",
+        "third_party\\codeformer\\LICENSE": "https://raw.githubusercontent.com/sczhou/CodeFormer/b33cc7d639d6545bfcccc7e0bc6ae51f24e79c2b/LICENSE"
+      },
+      "hashes": {
+        "third_party\\codeformer\\codeformer_arch.py": "dfccf9e9e6cd58b933301350e956418d1ffb15bb601ef5ce16d6dda3f01d020a",
+        "third_party\\codeformer\\vqgan_arch.py": "5ef00125ce448e34c9c02655bdebff5dca51589597c7c43a0b4bf2326d32e8cb",
+        "third_party\\codeformer\\inference_codeformer.py": "9b74db650fac5de4427ca5bf10a66538f41224e10611ad6d5fb54949d4ce1512",
+        "third_party\\codeformer\\LICENSE": "cfd654022bdc44fdd809670d50239bcb1ebf2f4a661dca7e328f93c269538246"
+      }
+    },
+    "gfpgan": {
+      "repo": "TencentARC/GFPGAN",
+      "commit": "7552a7791caad982045a7bbe5634bbf1cd5c8679",
+      "files": {
+        "third_party\\gfpgan\\gfpganv1_clean_arch.py": "https://raw.githubusercontent.com/TencentARC/GFPGAN/7552a7791caad982045a7bbe5634bbf1cd5c8679/gfpgan/archs/gfpganv1_clean_arch.py",
+        "third_party\\gfpgan\\stylegan2_clean_arch.py": "https://raw.githubusercontent.com/TencentARC/GFPGAN/7552a7791caad982045a7bbe5634bbf1cd5c8679/gfpgan/archs/stylegan2_clean_arch.py",
+        "third_party\\gfpgan\\LICENSE": "https://raw.githubusercontent.com/TencentARC/GFPGAN/7552a7791caad982045a7bbe5634bbf1cd5c8679/LICENSE"
+      },
+      "hashes": {
+        "third_party\\gfpgan\\gfpganv1_clean_arch.py": "576f44f3aae39e21a8138fe51f8ec96c0b94559e08fc10c78416e8658ac290a9",
+        "third_party\\gfpgan\\stylegan2_clean_arch.py": "274f6a66c0c56ee565e0df9e77a90d2a475c766419e15026273ca10f0dfd0ba0",
+        "third_party\\gfpgan\\LICENSE": "b916d19bf894eb43409866adf17c9f71cbb17aefd9cd105117c4a32598ef6a46"
+      }
+    }
+  },
+  "hash_note": "SHA256 locally recorded after official download, not author-published checksums.",
+  "HAT_origin": "Official repository links to Drive folder 1HpmReFfoUqUbnAOQ7rvOeNU3uf_m69w0"
+}

@@ -1,0 +1,1 @@
+{"face_detector":"retinaface_resnet50","face_parser":"parsenet","face_restorer":"gfpgan","device":"auto","analysis_edge":1024,"preview_edge":1024,"max_faces":16,"idle_unload_seconds":120,"development_debug":true}

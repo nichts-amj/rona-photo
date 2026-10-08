@@ -1,0 +1,40 @@
+import assert from 'node:assert/strict';
+import {createRequire} from 'node:module';
+const require=createRequire(process.env.RONA_NODE_RUNTIME+'/package.json');const {chromium}=require('playwright');
+const [base,photo,output]=process.argv.slice(2);
+const browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true});
+const page=await browser.newPage({viewport:{width:1440,height:1000}});let scans=0,saved;const errors=[];
+page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.url().endsWith('/api/retouch/segment'))scans++;if(r.url().endsWith('/api/library/retouch/state'))saved=r.postDataJSON()});
+const change=async(id,value)=>page.locator('#'+id).evaluate((input,value)=>{input.value=value;input.dispatchEvent(new Event('input',{bubbles:true}));input.dispatchEvent(new Event('change',{bubbles:true}))},value);
+try{
+ await page.goto(base+'/retouch');
+ const pixels=await page.evaluate(async()=>{
+  const {freshState,drawPreview,stackAdjust,renderGeometry,encodeExport}=await import('/retouch/engine.mjs');
+  const source=Object.assign(document.createElement('canvas'),{width:2,height:1,naturalWidth:2,naturalHeight:1}),mask=document.createElement('canvas'),target=document.createElement('canvas');mask.width=2;mask.height=1;
+  const c=source.getContext('2d');c.fillStyle='#00ff00';c.fillRect(0,0,2,1);mask.getContext('2d').fillStyle='#fff';mask.getContext('2d').fillRect(0,0,1,1);
+  const state=freshState();state.area={mask:'m',person:{},background:{hsl:{green:{saturation:-100}}}};
+  drawPreview(source,state,target,()=>mask);const preview=[...target.getContext('2d').getImageData(0,0,2,1).data];
+  const replay=renderGeometry(source,stackAdjust(state).operations,()=>null,()=>mask);
+  const blob=await encodeExport(target,'image/png',1,{width:2,height:1});const bitmap=await createImageBitmap(blob);target.getContext('2d').clearRect(0,0,2,1);target.getContext('2d').drawImage(bitmap,0,0);bitmap.close();
+  return {preview,replay:[...replay.getContext('2d').getImageData(0,0,2,1).data],exported:[...target.getContext('2d').getImageData(0,0,2,1).data]};
+ });
+ assert.deepEqual(pixels.preview,[0,255,0,255,128,128,128,255]);assert.deepEqual(pixels.preview,pixels.replay);assert.deepEqual(pixels.preview,pixels.exported);
+ await page.setInputFiles('#file-input',photo);await page.waitForFunction(()=>!document.getElementById('adjust-fields').disabled);
+ await page.click('#adjust-hsl summary');await page.click('[data-hsl-color="red"]');await change('hsl-hue',15);
+ await page.click('[data-hsl-color="blue"]');assert.equal(await page.inputValue('#hsl-hue'),'0');await change('hsl-luminance',20);
+ await page.click('[data-hsl-color="red"]');assert.equal(await page.inputValue('#hsl-hue'),'15');
+ await page.click('[data-area="background"]');await page.waitForFunction(()=>document.querySelector('[data-area="background"]').getAttribute('aria-pressed')==='true',{timeout:90000});assert.equal(scans,1);
+ assert.equal(await page.inputValue('#hsl-hue'),'0');await page.click('[data-hsl-color="green"]');await change('hsl-saturation',-80);
+ await page.click('[data-area="person"]');assert.equal(await page.inputValue('#hsl-saturation'),'0');await change('hsl-luminance',10);
+ await page.click('[data-area="background"]');assert.equal(await page.inputValue('#hsl-saturation'),'-80');assert.equal(await page.inputValue('#hsl-luminance'),'0');
+ await page.screenshot({path:output+'/hsl-day.png'});await page.click('#filter-apply');await page.waitForFunction(()=>document.getElementById('hsl-saturation').value==='0');
+ await page.click('#undo');await page.waitForFunction(()=>document.getElementById('hsl-saturation').value==='-80');await page.click('#redo');await page.waitForFunction(()=>document.getElementById('hsl-saturation').value==='0');
+ await page.click('#save-history');await page.waitForFunction(()=>document.getElementById('notice-text').textContent==='Berhasil disimpan.');
+ const op=saved.state.operations.at(-1);assert.equal(op.adjust.hsl.red.hue,15);assert.equal(op.adjust.hsl.blue.luminance,20);assert.equal(op.area.background.hsl.green.saturation,-80);assert.equal(op.area.person.hsl.green.luminance,10);
+ const reopened=await page.evaluate(async saved=>{const token=(await (await fetch('/api/retouch/status')).json()).token;return (await fetch('/api/library/edit',{method:'POST',headers:{'X-Studio-Token':token,'Content-Type':'application/json'},body:JSON.stringify({module:'retouch',id:saved.id,target:'retouch'})})).json()},saved);
+ await page.evaluate(()=>localStorage.setItem('rona-photo-theme','night'));await page.goto(base+reopened.url);await page.waitForFunction(()=>document.getElementById('notice-text').textContent.startsWith('Foto dibuka dari Riwayat.'));
+ await page.click('#adjust-hsl summary');await page.click('[data-area="background"]');await page.click('[data-hsl-color="green"]');assert.equal(scans,1);await change('hsl-hue',25);
+ await page.screenshot({path:output+'/hsl-night.png'});await page.click('#edit-cancel');await page.waitForFunction(()=>document.getElementById('hsl-hue').value==='0');
+ await change('hsl-saturation',-35);await page.click('#adjust-reset');await page.waitForFunction(()=>document.getElementById('hsl-saturation').value==='0');
+ assert.deepEqual(errors,[]);console.log('PASS: HSL pixels, area isolation, export parity, independent colours and areas, cached scan, Apply, Undo/Redo, Cancel/reset and history reload.');
+}catch(e){console.log(errors,await page.locator('#notice-text').textContent());throw e}finally{await browser.close()}

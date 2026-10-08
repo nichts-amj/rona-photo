@@ -1,0 +1,41 @@
+{
+  "repository": "https://github.com/xinntao/Real-ESRGAN",
+  "commit": "fa4c8a03ae3dbc9ea6ed471a6ab5da94ac15c2ea",
+  "files": {
+    "third_party/realesrgan/srvgg_arch_upstream.py": {
+      "url": "https://raw.githubusercontent.com/xinntao/Real-ESRGAN/fa4c8a03ae3dbc9ea6ed471a6ab5da94ac15c2ea/realesrgan/archs/srvgg_arch.py",
+      "sha256": "7419a75e789ca09295266563d74a6d7c08d6c24502af6b0a919b1811d0a0be59",
+      "bytes": 2722
+    },
+    "third_party/realesrgan/LICENSE": {
+      "url": "https://raw.githubusercontent.com/xinntao/Real-ESRGAN/fa4c8a03ae3dbc9ea6ed471a6ab5da94ac15c2ea/LICENSE",
+      "sha256": "4a699ec4863d96a91fc265948a0c90033f7e8735d515524dcf3444736406e0c2",
+      "bytes": 1519
+    },
+    "third_party/realesrgan/inference_reference.py": {
+      "url": "https://raw.githubusercontent.com/xinntao/Real-ESRGAN/fa4c8a03ae3dbc9ea6ed471a6ab5da94ac15c2ea/inference_realesrgan.py",
+      "sha256": "389af1172b8ae830dc940283a5e7197d05ab6d9ec15c673bb383c03d957f84bf",
+      "bytes": 7745
+    },
+    "third_party/realesrgan/utils_reference.py": {
+      "url": "https://raw.githubusercontent.com/xinntao/Real-ESRGAN/fa4c8a03ae3dbc9ea6ed471a6ab5da94ac15c2ea/realesrgan/utils.py",
+      "sha256": "185df0ef68f96891bdbb99280aac5b8b62fd4e4baac74bad37f53cf408668db1",
+      "bytes": 12605
+    },
+    "models/realesr-general-x4v3.pth": {
+      "url": "https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesr-general-x4v3.pth",
+      "sha256": "8dc7edb9ac80ccdc30c3a5dca6616509367f05fbc184ad95b731f05bece96292",
+      "bytes": 4885111
+    },
+    "models/realesr-general-wdn-x4v3.pth": {
+      "url": "https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesr-general-wdn-x4v3.pth",
+      "sha256": "1641f8c4464b9f097c9fdda5589273713f67cf59f3d909e0bd688f0cee269dca",
+      "bytes": 4885111
+    },
+    "third_party/realesrgan/srvgg_arch.py": {
+      "sha256": "4079933d1fe78d74f2482e865d3cc3584409e9b582380f8c1346f36e003dc96c",
+      "adaptation": "Removed BasicSR registry import and decorator only; network and forward unchanged."
+    }
+  },
+  "hash_note": "Locally computed SHA-256 after official HTTPS downloads, not author-published checksums."
+}

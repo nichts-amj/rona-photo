@@ -1,0 +1,65 @@
+// Run through verify-person-browser.py; uses a disposable local server and browser.
+import assert from 'node:assert/strict';
+import {createRequire} from 'node:module';
+const require=createRequire(process.env.RONA_NODE_RUNTIME+'/package.json');
+const {chromium}=require('playwright');
+const [base,photo,output]=process.argv.slice(2);
+const browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true});
+const page=await browser.newPage({viewport:{width:1440,height:1000}});const errors=[];let scans=0,saved=null;
+page.on('pageerror',e=>errors.push(e.message));
+page.on('request',request=>{if(request.url().endsWith('/api/retouch/segment'))scans++;if(request.url().endsWith('/api/library/retouch/state'))saved=request.postDataJSON()});
+try{
+  await page.goto(base+'/retouch');await page.waitForFunction(()=>!document.getElementById('open').disabled);
+  const pixels=await page.evaluate(async()=>{
+    const {freshState,drawPreview,stackAdjust,renderGeometry}=await import('/retouch/engine.mjs');
+    const {projectMask}=await import('/retouch/area-adjust.mjs');
+    const make=()=>Object.assign(document.createElement('canvas'),{width:6,height:1});
+    const source=make(),mask=make(),target=make();source.getContext('2d').fillStyle='rgb(100,100,100)';source.getContext('2d').fillRect(0,0,6,1);
+    mask.getContext('2d').fillStyle='white';mask.getContext('2d').fillRect(0,0,3,1);
+    const state=freshState();state.area={mask:'m',person:{exposure:1},background:{exposure:-1}};
+    drawPreview(source,state,target,()=>mask);const before=Array.from(target.getContext('2d').getImageData(0,0,6,1).data);
+    const applied=stackAdjust(state);
+    // Replay from a real canvas with the same source dimensions, as editor images do.
+    source.naturalWidth=6;source.naturalHeight=1;
+    const replay=renderGeometry(source,applied.operations,()=>null,()=>mask);
+    const after=Array.from(replay.getContext('2d').getImageData(0,0,6,1).data);
+    const flip=projectMask(mask,{width:6,height:1,anchor:0},[{type:'flip',axis:'x'}]);
+    const crop=projectMask(mask,{width:6,height:1,anchor:0},[{type:'crop',x:3,y:0,w:3,h:1}]);
+    const semi=make();semi.getContext('2d').fillStyle='rgba(100,100,100,.5)';semi.getContext('2d').fillRect(0,0,6,1);
+    drawPreview(semi,state,target,()=>mask);const transparent=Array.from(target.getContext('2d').getImageData(0,0,6,1).data);
+    mask.getContext('2d').clearRect(0,0,6,1);mask.getContext('2d').fillStyle='rgba(255,255,255,.5)';mask.getContext('2d').fillRect(0,0,6,1);
+    drawPreview(source,state,target,()=>mask);const soft=Array.from(target.getContext('2d').getImageData(0,0,6,1).data);
+    return {before,after,transparent,soft,flipped:Array.from(flip.getContext('2d').getImageData(0,0,6,1).data),cropped:Array.from(crop.getContext('2d').getImageData(0,0,3,1).data)};
+  });
+  assert.equal(pixels.before[0],200);assert.equal(pixels.before[12],50);assert.deepEqual(pixels.before,pixels.after);
+  assert.equal(pixels.flipped[3],0);assert.equal(pixels.flipped[23],255);assert.equal(pixels.cropped[3],0);
+  assert.equal(pixels.transparent[3],128);assert.equal(pixels.transparent[15],128);assert.ok(Math.abs(pixels.soft[0]-125)<=1);
+  await page.setInputFiles('#file-input',photo);await page.waitForFunction(()=>!document.getElementById('adjust-fields').disabled);
+  await page.click('[data-area="person"]');await page.waitForFunction(()=>document.querySelector('[data-area="person"]').getAttribute('aria-pressed')==='true',{timeout:60000});
+  assert.equal(scans,1);
+  const change=async(id,value)=>page.locator('#'+id).evaluate((input,value)=>{input.value=value;input.dispatchEvent(new Event('input',{bubbles:true}));input.dispatchEvent(new Event('change',{bubbles:true}))},value);
+  await change('exposure',.6);await page.click('[data-area="background"]');assert.equal(await page.inputValue('#exposure'),'0');await change('exposure',-.4);
+  await page.click('[data-area="person"]');assert.equal(await page.inputValue('#exposure'),'0.6');assert.equal(scans,1);
+  await page.click('#area-show');await page.screenshot({path:output+'/area-day.png'});await page.click('#area-show');
+  await page.click('#filter-apply');await page.waitForFunction(()=>document.getElementById('exposure').value==='0');
+  await page.click('#undo');await page.waitForFunction(()=>document.getElementById('exposure').value==='0.6');
+  await page.click('#redo');await page.waitForFunction(()=>document.getElementById('exposure').value==='0');assert.equal(scans,1);
+  await page.click('#save-history');await page.waitForFunction(()=>document.getElementById('notice-text').textContent==='Berhasil disimpan.');
+  assert.ok(saved.state.areaMasks[saved.state.operations.at(-1).area.mask].png);
+  assert.equal(saved.state.operations.at(-1).area.person.exposure,.6);assert.equal(saved.state.operations.at(-1).area.background.exposure,-.4);
+  const reopened=await page.evaluate(async saved=>{const token=(await (await fetch('/api/retouch/status')).json()).token;return (await fetch('/api/library/edit',{method:'POST',headers:{'X-Studio-Token':token,'Content-Type':'application/json'},body:JSON.stringify({module:'retouch',id:saved.id,target:'retouch'})})).json()},saved);
+  assert.ok(reopened.url);await page.goto(base+reopened.url);await page.waitForFunction(()=>document.getElementById('notice-text').textContent.startsWith('Foto dibuka dari Riwayat.'));
+  await page.click('[data-area="person"]');await page.waitForFunction(()=>document.querySelector('[data-area="person"]').getAttribute('aria-pressed')==='true');assert.equal(scans,1);
+  await page.evaluate(()=>localStorage.setItem('rona-photo-theme','night'));await page.goto(base+reopened.url);
+  await page.waitForFunction(()=>document.getElementById('notice-text').textContent.startsWith('Foto dibuka dari Riwayat.'));
+  await page.click('[data-area="person"]');await page.waitForFunction(()=>document.querySelector('[data-area="person"]').getAttribute('aria-pressed')==='true');
+  await page.waitForFunction(()=>getComputedStyle(document.querySelector('[data-area="person"]')).backgroundColor==='rgb(40, 91, 149)');
+  await page.screenshot({path:output+'/area-night.png'});
+  const previousMask=saved.state.operations.at(-1).area.mask;
+  await page.click('#area-refine summary');await page.click('#area-add-person');
+  const rect=await page.locator('#image-stage').boundingBox();await page.mouse.move(rect.x+20,rect.y+20);await page.mouse.down();await page.mouse.move(rect.x+55,rect.y+55,{steps:6});await page.mouse.up();
+  await page.click('#area-pan');await page.click('#save-history');await page.waitForFunction(()=>document.getElementById('notice-text').textContent==='Berhasil disimpan.');
+  assert.notEqual(saved.state.area.mask,previousMask);assert.equal(saved.state.operations.at(-1).area.mask,previousMask);assert.ok(saved.state.areaMasks[previousMask]);
+  assert.equal(scans,1);
+  assert.deepEqual(errors,[]);console.log('PASS: exact regional pixels, Crop/Flip masks, real offline scan, independent sliders, one scan per photo, Apply/Undo/Redo and saved-history reload.');
+}finally{await browser.close()}

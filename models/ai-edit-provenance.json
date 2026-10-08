@@ -1,0 +1,24 @@
+{
+  "lama": "https://github.com/Sanster/models/releases/download/add_big_lama/big-lama.pt",
+  "sd15": "stable-diffusion-v1-5/stable-diffusion-inpainting",
+  "revision": "8a4288a76071f7280aedbdb3253bdb9e9d5d84bb",
+  "sha256": {
+    "big-lama.pt": "344c77bbcb158f17dd143070d1e789f38a66c04202311ae3a258ef66667a9ea9",
+    "sd15\\model_index.json": "636d700de8970a70f02b91d433ad949dc2ceb750f39ba0cf2cf39ef0b0b9d1e4",
+    "sd15\\README.md": "6f5758cfeabddb509b09399d6f0879056c5fd0002d7d9849bc183a6de9a98ab0",
+    "sd15\\feature_extractor\\preprocessor_config.json": "2a1da83b5e1032aaeef397552ddb408dca0d8cd1dc58f61bf6abf38d6f33a0a2",
+    "sd15\\safety_checker\\config.json": "d69bd41b02b5e8f4d3b148871ce03b1eaf108467ee3c505fe67b5b814ca3109e",
+    "sd15\\safety_checker\\model.fp16.safetensors": "08902f19b1cfebd7c989f152fc0507bef6898c706a91d666509383122324b511",
+    "sd15\\scheduler\\scheduler_config.json": "8b457848b74deeeab2a967b75048dd2cb6f393cfc17751eca1b5ec655cff0183",
+    "sd15\\text_encoder\\config.json": "845df614cb9327ae7bbea027316246fae917827407da6df13572e41b5f93b4cc",
+    "sd15\\text_encoder\\model.fp16.safetensors": "77795e2023adcf39bc29a884661950380bd093cf0750a966d473d1718dc9ef4e",
+    "sd15\\tokenizer\\merges.txt": "9fd691f7c8039210e0fced15865466c65820d09b63988b0174bfe25de299051a",
+    "sd15\\tokenizer\\special_tokens_map.json": "c4864a9376a8401918425bed71fc14fc0e81f9b59ec45c1cf96cccb2df508eac",
+    "sd15\\tokenizer\\tokenizer_config.json": "00439066fcba73de57644cf41e4e3b9f2dbb09d7f3fc2005898ba52399045882",
+    "sd15\\tokenizer\\vocab.json": "e089ad92ba36837a0d31433e555c8f45fe601ab5c221d4f607ded32d9f7a4349",
+    "sd15\\unet\\config.json": "669f6581087fac5b16c44e42c58b359a35eadf2af5691d7945480bd7ceac8e6d",
+    "sd15\\unet\\diffusion_pytorch_model.fp16.safetensors": "24b788b4a777748377cc20364eea4ae113c8c42f4468c16bc8c02fdae5492af9",
+    "sd15\\vae\\config.json": "4cd0ce4803567837175fbb8412689fe77d069c1ef8171beb83979db309a8bad5",
+    "sd15\\vae\\diffusion_pytorch_model.fp16.safetensors": "4fbcf0ebe55a0984f5a5e00d8c4521d52359af7229bb4d81890039d2aa16dd7c"
+  }
+}

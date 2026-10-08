@@ -1,0 +1,2 @@
+# Stage 1 only. Tested locally with Python 3.12.14.
+Pillow==12.3.0
